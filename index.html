@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>나의 약 실험실</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+<link type="text/css" rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+  <!-- 화면 전체가 작업대 -->
+  <main id="workspace" aria-label="실험 작업대"></main>
+
+  <header class="toolbar">
+    <div class="brand">
+      <strong>⚗ 나의 약 실험실</strong>
+      <span id="counter">3 / 83</span>
+    </div>
+
+    <div class="toolbar-actions">
+      <button id="journalButton">기록장</button>
+      <button id="clearButton" title="발견 기록을 유지하고 작업대만 정리">
+        작업대 정리
+      </button>
+    </div>
+  </header>
+
+  <div id="intro" class="intro">
+    <strong>끌어서, 겹쳐서, 발견하기</strong>
+    <p>아래 재료를 빈 화면으로 끌어와<br>다른 재료 위에 놓아 봐.</p>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <aside class="shelf" aria-label="발견한 재료함">
+    <div class="shelf-heading">
+      <span>발견한 재료</span>
+      <input id="search" type="search" placeholder="이름 검색"
+             aria-label="재료 검색">
+      <span id="saveStatus">자동 저장</span>
+    </div>
+    <div id="inventory"></div>
+  </aside>
+
+  <div id="dragLayer" aria-hidden="true"></div>
+
+  <dialog id="journal">
+    <div class="journal-heading">
+      <div>
+        <small>DISCOVERY JOURNAL</small>
+        <h1>나의 발견 기록장</h1>
+      </div>
+      <button id="closeJournal" aria-label="기록장 닫기">✕</button>
+    </div>
+
+    <p class="notice">
+      실제 의약품 성분명을 사용하는 퍼즐입니다.
+      조합은 허구이며 실제 합성법·제조법·병용 정보를 제공하지 않습니다.
+    </p>
+
+    <div class="journal-stats">
+      <strong id="journalCount"></strong>
+      <span id="recipeCount"></span>
+    </div>
+
+    <div class="tabs">
+      <button id="discoveryTab" class="active">발견 도감</button>
+      <button id="historyTab">조합 기록</button>
+    </div>
+
+    <div id="journalContent"></div>
+
+    <div class="journal-footer">
+      <span>기록은 현재 브라우저에 저장됩니다.</span>
+      <button id="resetButton">전체 기록 초기화</button>
+    </div>
+  </dialog>
+
+  <div class="disclaimer">
+    실제 성분명 · 가상의 조합 규칙
+  </div>
+<script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+:root {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  color: #313b36;
+  background: #f5f5ef;
+  --green: #48684d;
+  --line: #d9ddd3;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible {
+  outline: 3px solid #83a17c;
+  outline-offset: 3px;
+}
+
+#workspace {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* 툴바 바깥의 모든 빈 화면을 작업대로 사용 */
+.toolbar {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.brand, .toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.brand strong { font-size: 18px; }
+#counter {
+  color: #7b8579;
+  font-size: 12px;
+  background: #e9ece3;
+  padding: 6px 9px;
+  border-radius: 20px;
+}
+
+button {
+  border: 1px solid var(--line);
+  background: #ffffffed;
+  color: #435443;
+  border-radius: 10px;
+  padding: 10px 13px;
+}
+button:hover { background: #eaf0e4; }
+
+.intro {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #a4ab9d;
+  pointer-events: none;
+  width: 280px;
+}
+.intro strong { font-size: 20px; font-weight: 500; }
+.intro p { line-height: 1.9; font-size: 14px; }
+.intro.hidden { display: none; }
+
+.element {
+  width: 96px;
+  min-height: 88px;
+  padding: 9px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #dce1d5;
+  border-radius: 15px;
+  background: #fffef9;
+  color: #354536;
+  box-shadow: 0 3px 8px #37412d09;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  cursor: grab;
+}
+.element .icon { font-size: 31px; line-height: 1.2; }
+.element .name {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+}
+.element .icon { pointer-events: none; }
+
+#workspace > .element {
+  position: absolute;
+  z-index: 2;
+}
+.element.target {
+  border-color: #779a68;
+  background: #e9f1df;
+  box-shadow: 0 0 0 5px #9bb48730;
+}
+.element.moving { opacity: .2; }
+.element.new { animation: discover .6s ease-out; }
+
+@keyframes discover {
+  0% { transform: scale(.65); box-shadow: 0 0 0 25px #b9cb9c70; }
+  65% { transform: scale(1.12); }
+  100% { transform: scale(1); box-shadow: 0 3px 8px #37412d09; }
+}
+
+#dragLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+}
+#dragLayer .element {
+  position: absolute;
+  opacity: .95;
+  box-shadow: 0 12px 30px #38462b26;
+  cursor: grabbing;
+}
+
+.shelf {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #ffffffed;
+  border-top: 1px solid var(--line);
+  padding: 13px 20px calc(14px + env(safe-area-inset-bottom));
+  z-index: 20;
+}
+.shelf-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: #727e6e;
+}
+#search {
+  width: 180px;
+  max-width: 45vw;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: #f7f8f3;
+  min-width: 0;
+}
+#saveStatus { margin-left: auto; font-size: 11px; }
+
+#inventory {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 3px 3px 9px;
+  min-height: 103px;
+  scrollbar-width: thin;
+}
+#inventory .element { flex: 0 0 96px; }
+.empty { color: #8c9587; font-size: 13px; }
+
+#toast {
+  position: fixed;
+  left: 50%;
+  top: 90px;
+  transform: translateX(-50%) translateY(-8px);
+  max-width: calc(100vw - 32px);
+  width: max-content;
+  padding: 13px 20px;
+  border-radius: 30px;
+  background: #425a3f;
+  color: white;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 6px 25px #25342218;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s, transform .2s;
+  z-index: 50;
+}
+#toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.disclaimer {
+  position: fixed;
+  right: 20px;
+  bottom: 185px;
+  color: #969d90;
+  font-size: 10px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+dialog {
+  width: min(700px, calc(100vw - 24px));
+  max-height: 85dvh;
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fafbf6;
+  color: #354536;
+  box-shadow: 0 25px 90px #26332135;
+}
+dialog::backdrop { background: #25332366; backdrop-filter: blur(4px); }
+.journal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.journal-heading small { letter-spacing: 2px; color: #88977d; font-size: 10px; }
+h1 { margin: 7px 0 0; font-size: 24px; }
+.notice { font-size: 12px; color: #8a8776; line-height: 1.7; }
+.journal-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 22px 0;
+  font-size: 13px;
+}
+.journal-stats span { color: #8b9684; }
+.tabs { display: flex; gap: 8px; margin-bottom: 15px; }
+.tabs .active { background: #48684d; color: white; border-color: #48684d; }
+
+#journalContent {
+  height: min(43dvh, 410px);
+  overflow-y: auto;
+}
+.journal-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 4px;
+  border-bottom: 1px solid #e5e8de;
+}
+.journal-row .row-icon { font-size: 27px; width: 36px; text-align: center; }
+.journal-row strong { font-size: 13px; }
+.journal-row p { margin: 5px 0 0; font-size: 11px; color: #8b9684; }
+.journal-row.locked { color: #aeb4a8; }
+.journal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  font-size: 11px;
+  color: #8b9684;
+}
+#resetButton { color: #a36252; font-size: 11px; }
+
+@media (max-width: 600px) {
+  .toolbar { left: 12px; right: 12px; }
+  .brand { gap: 6px; }
+  .brand strong { font-size: 14px; }
+  #counter { padding: 5px 6px; font-size: 10px; }
+  .toolbar-actions { gap: 5px; }
+  .toolbar-actions button { padding: 9px 8px; font-size: 11px; }
+  .shelf { padding-left: 12px; padding-right: 12px; }
+  .shelf-heading { gap: 8px; }
+  #saveStatus { font-size: 10px; }
+  .disclaimer { right: 12px; bottom: 185px; }
+  dialog { padding: 20px; }
+  .journal-stats, .journal-footer { flex-wrap: wrap; }
+}
